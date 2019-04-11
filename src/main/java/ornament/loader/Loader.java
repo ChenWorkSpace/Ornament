@@ -63,7 +63,7 @@ public class Loader {
                 if(file1.isDirectory()){
                     lis.add(file1);
                 }else{
-                    String [] dirNames=file1.getName().split(".");
+                    String [] dirNames=file1.getName().split("\\.");
                     if(dirNames.length>=1&& dirNames[dirNames.length-1].equals("class")){
                         String url=  getRealPath(file1.getAbsolutePath());
                         Class clas=Thread.currentThread().getContextClassLoader().loadClass(url);
@@ -121,7 +121,9 @@ public class Loader {
     }
     public void register(Subscriber subscriber,String topic){
         Subject observable= (Subject) observableMap.get(topic);
-        observable.register(subscriber);
+        if(observable==null){
+            System.out.println("can't find the topic:"+topic);
+        }else observable.register(subscriber);
 
     }
 
